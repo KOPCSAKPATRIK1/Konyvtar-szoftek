@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Konyvtar.DataAcces\Konyvtar.DataAcces.csproj" />
+    <ProjectReference Include="..\Konyvtar.Logic\Konyvtar.Logic.csproj" />
+  </ItemGroup>
+
 </Project>
