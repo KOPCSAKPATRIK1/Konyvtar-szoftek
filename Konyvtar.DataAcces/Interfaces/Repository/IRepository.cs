@@ -1,6 +1,4 @@
-﻿using Konyvtar.DataAcces.Model;
-
-namespace Konyvtar.DataAcces.Interfaces.Repository;
+﻿namespace Konyvtar.DataAcces.Interfaces.Repository;
 
 public interface IRepository<T>
 {

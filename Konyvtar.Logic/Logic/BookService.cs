@@ -1,68 +1,63 @@
 ﻿using Konyvtar.DataAcces.Interfaces.Logic;
 using Konyvtar.DataAcces.Interfaces.Repository;
 using Konyvtar.DataAcces.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Konyvtar.Logic.Logic
+namespace Konyvtar.Logic.Logic;
+
+public class BookService : IBookService
 {
-    public class BookService : IBookService
+    private readonly IRepository<Book> _repository;
+
+    public BookService(IRepository<Book> repository)
     {
-        private readonly IRepository<Book> _repository;
+        _repository = repository;
+    }
 
-        public BookService(IRepository<Book> repository)
+    public void AddBook(string id, string title, Genre genre, List<string> authors)
+    {
+        if (_repository.GetAll().Any(b => b.Id == id))
         {
-            _repository = repository;
+            throw new ArgumentException($"Már létezik könyv ezzel az azonosítóval: {id}");
         }
 
-        public void AddBook(string id, string title, Genre genre, List<string> authors)
+        if (string.IsNullOrWhiteSpace(title) || title.Length < 4)
         {
-            if (_repository.GetAll().Any(b => b.Id == id))
-            {
-                throw new ArgumentException($"Már létezik könyv ezzel az azonosítóval: {id}");
-            }
-
-            if (string.IsNullOrWhiteSpace(title) || title.Length < 4)
-            {
-                throw new ArgumentException("A könyv címe nem lehet üres, és legalább 4 karakter hosszúnak kell lennie.");
-            }
-
-            var book = new Book(id, title, genre, authors);
-            _repository.Add(book);
+            throw new ArgumentException("A könyv címe nem lehet üres, és legalább 4 karakter hosszúnak kell lennie.");
         }
 
-        public List<Book> GetAllBooks()
-        {
-            return _repository.GetAll();
-        }
+        var book = new Book(id, title, genre, authors);
+        _repository.Add(book);
+    }
 
-        public void RenameAuthorInBooks(string oldName, string newName)
+    public List<Book> GetAllBooks()
+    {
+        return _repository.GetAll();
+    }
+
+    public void RenameAuthorInBooks(string oldName, string newName)
+    {
+        var books = _repository.GetAll();
+        foreach (var book in books) 
         {
-            var books = _repository.GetAll();
-            foreach (var book in books) 
+            for (int i = 0; i < book.Authors.Count; i++)
             {
-                for (int i = 0; i < book.Authors.Count; i++)
+                if (book.Authors[i] == oldName)
                 {
-                    if (book.Authors[i] == oldName)
-                    {
-                        book.Authors[i] = newName;
-                    }
+                    book.Authors[i] = newName;
                 }
-                _repository.Update(book);
             }
-        }
 
-        public void UpdateBookGenre(string id, Genre genre)
+            _repository.Update(book);
+        }
+    }
+
+    public void UpdateBookGenre(string id, Genre genre)
+    {
+        var book = _repository.Get(id);
+        if (book != null)
         {
-            var book = _repository.Get(id);
-            if (book != null)
-            {
-                book.Genre = genre;
-                _repository.Update(book);
-            }
+            book.Genre = genre;
+            _repository.Update(book);
         }
     }
 }
