@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Konyvtar", "Konyvtar\Konyvt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Konyvtar.DataAcces", "Konyvtar.DataAcces\Konyvtar.DataAcces.csproj", "{918D5689-779C-447E-BFD1-F811D6E1B615}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Konyvtar.Logic", "Konyvtar.Logic\Konyvtar.Logic.csproj", "{75E2CF15-227E-41AE-80E2-C5108A7B2A56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{918D5689-779C-447E-BFD1-F811D6E1B615}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{918D5689-779C-447E-BFD1-F811D6E1B615}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{918D5689-779C-447E-BFD1-F811D6E1B615}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E2CF15-227E-41AE-80E2-C5108A7B2A56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E2CF15-227E-41AE-80E2-C5108A7B2A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E2CF15-227E-41AE-80E2-C5108A7B2A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E2CF15-227E-41AE-80E2-C5108A7B2A56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
