@@ -9,16 +9,9 @@ public class Book
 
     public Book(string id, string title, Genre genre, List<string> authors)
     {
-        Id = GenerateId();
+        Id = id;
         Title = title;
         Genre = genre;
         Authors = authors;
-    }
-
-    private static string GenerateId()
-    {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        var random = new Random();
-        return new string(Enumerable.Range(0, 12).Select(_ => chars[random.Next(chars.Length)]).ToArray());
     }
 }
