@@ -17,8 +17,19 @@ namespace Konyvtar.Logic.Logic
         {
             _repository = repository;
         }
+
         public void AddBook(string id, string title, Genre genre, List<string> authors)
         {
+            if (_repository.GetAll().Any(b => b.Id == id))
+            {
+                throw new ArgumentException($"Már létezik könyv ezzel az azonosítóval: {id}");
+            }
+
+            if (string.IsNullOrWhiteSpace(title) || title.Length < 4)
+            {
+                throw new ArgumentException("A könyv címe nem lehet üres, és legalább 4 karakter hosszúnak kell lennie.");
+            }
+
             var book = new Book(id, title, genre, authors);
             _repository.Add(book);
         }
