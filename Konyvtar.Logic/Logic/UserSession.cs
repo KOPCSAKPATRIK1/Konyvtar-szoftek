@@ -3,7 +3,7 @@
 public class UserSession
 {
     private static readonly UserSession _instance = new UserSession();
-    private int userId = 1;
+    private int _userId = 1;
 
     private UserSession() { }
 
@@ -14,6 +14,10 @@ public class UserSession
 
     public int GetUserId()
     {
-        return userId;
+        return _userId;
+    }
+    public void SetUserId(int userId)
+    {
+        _userId = userId;
     }
 }
