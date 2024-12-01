@@ -5,7 +5,13 @@ using Konyvtar.Logic.Logic;
 using Konyvtar.Logic.Repository;
 
 IRepository<Book> repository = new InMemoryBookRepository();
-IBookService bookService = new BookService(repository);
+IUserRepository userRepository = new UserRepository();
+IBookService bookService = new BookService(repository, userRepository);
+
+repository.Add(new Book("000000000001", "Az alkimista", Genre.Fantasy, new List<string> { "Paulo Coelho" }));
+repository.Add(new Book("000000000002", "A kis herceg", Genre.Thriller, new List<string> { "Antoine de Saint-Exupéry" }));
+repository.Add(new Book("000000000003", "Harry Potter és a bölcsek köve", Genre.Fantasy, new List<string> { "J.K. Rowling" }));
+repository.Add(new Book("000000000004", "A Gyűrűk Ura", Genre.Fantasy, new List<string> { "J.R.R. Tolkien" }));
 
 while (true)
 {
@@ -20,6 +26,7 @@ while (true)
 
     switch (choice)
     {
+
         case "1":
             try
             {
@@ -33,9 +40,11 @@ while (true)
                 var authors = Console.ReadLine().Split(',').ToList();
 
                 Console.WriteLine("Válassz műfajt az alábbiak közül:");
+                int num = 0;
                 foreach (var genreName in Enum.GetNames(typeof(Genre)))
                 {
-                    Console.WriteLine($"- {genreName}");
+                    Console.WriteLine($"{num} {genreName}");
+                    num++;
                 }
 
                 Console.Write("Műfaj: ");
@@ -57,15 +66,28 @@ while (true)
             break;
 
         case "2":
+            
+           var books = bookService.GetAllBooks();
+            if (books.Any())
+            {
+                Console.WriteLine("A könyvek listája:");
+                foreach (var book in books)
+                {
+                    Console.WriteLine($"ID: {book.Id}, Cím: {book.Title}, Műfaj: {book.Genre}, Szerzők: {string.Join(", ", book.Authors)}");
+                }
+            }
             try
             {
+
                 Console.Write("Könyv azonosítója: ");
                 var id = Console.ReadLine();
 
                 Console.WriteLine("Válassz új műfajt az alábbiak közül:");
+                int num = 0;
                 foreach (var genreName in Enum.GetNames(typeof(Genre)))
                 {
-                    Console.WriteLine($"- {genreName}");
+                    Console.WriteLine($"{num} {genreName}");
+                    num++;
                 }
 
                 Console.Write("Új műfaj: ");
@@ -105,7 +127,7 @@ while (true)
             break;
 
         case "4":
-            var books = bookService.GetAllBooks();
+            books = bookService.GetAllBooks();
             if (books.Any())
             {
                 Console.WriteLine("A könyvek listája:");

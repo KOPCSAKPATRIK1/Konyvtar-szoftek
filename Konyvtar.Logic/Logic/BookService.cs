@@ -7,10 +7,12 @@ namespace Konyvtar.Logic.Logic;
 public class BookService : IBookService
 {
     private readonly IRepository<Book> _repository;
+    private readonly IUserRepository _userRepository;
 
-    public BookService(IRepository<Book> repository)
+    public BookService(IRepository<Book> repository, IUserRepository userRepository)
     {
         _repository = repository;
+        _userRepository = userRepository;
     }
 
     public void AddBook(string id, string title, Genre genre, List<string> authors)
@@ -27,6 +29,8 @@ public class BookService : IBookService
 
         var book = new Book(id, title, genre, authors);
         _repository.Add(book);
+
+        LogOperation("Létrehozás", book.Title);
     }
 
     public List<Book> GetAllBooks()
@@ -48,6 +52,7 @@ public class BookService : IBookService
             }
 
             _repository.Update(book);
+            LogOperation("Szerző átnevezése", book.Title);
         }
     }
 
@@ -58,6 +63,15 @@ public class BookService : IBookService
         {
             book.Genre = genre;
             _repository.Update(book);
+            LogOperation("Műfaj frissítése", book.Title);
         }
+    }
+
+    private void LogOperation(string operationType, string bookTitle)
+    {
+        int userId = UserSession.Instance.GetUserId();
+        string userName = _userRepository.GetUserName(userId);
+
+        Console.WriteLine($"[{operationType}] Könyv címe: {bookTitle}, Felhasználó: {userName}");
     }
 }
